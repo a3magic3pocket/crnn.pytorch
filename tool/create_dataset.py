@@ -23,7 +23,7 @@ def writeCache(env, cache):
 
 
 
-def createDataset(outputPath, imageDirPath, lexiconList=None, checkValid=True):
+def createDataset(outputPath, imageDirPath, lexiconList=None, checkValid=True, db_volume=100995116):
     """
     Create LMDB dataset for CRNN training.
 
@@ -40,7 +40,7 @@ def createDataset(outputPath, imageDirPath, lexiconList=None, checkValid=True):
         if os.path.isfile(os.path.join(imageDirPath, f))
     ]
     nSamples = len(imageNames)
-    env = lmdb.open(outputPath, map_size=100995116)
+    env = lmdb.open(outputPath, map_size=db_volume)
     cache = {}
     cnt = 1
     for i in range(nSamples):
@@ -75,5 +75,6 @@ def createDataset(outputPath, imageDirPath, lexiconList=None, checkValid=True):
 
 
 if __name__ == '__main__':
-    createDataset('./result', 'crnn_images')
+    createDataset('train_crnn_images_lmdb', 'train_crnn_images', db_volume=100995116)
+    createDataset('val_crnn_images_lmdb', 'val_crnn_images', db_volume=10099511)
     pass
