@@ -174,8 +174,7 @@ def trainBatch(net, criterion, optimizer):
     batch_size = cpu_images.size(0)
     print('TMP::prev cpu_images', cpu_images.shape)
     print('TMP::prev image', image.shape)
-    image = torch.Tensor.copy(cpu_images)
-    # utils.loadData(image, cpu_images)
+    utils.loadData(image, cpu_images)
     
     t, l = converter.encode(cpu_texts)
     utils.loadData(text, t)
