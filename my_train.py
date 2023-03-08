@@ -188,6 +188,7 @@ def trainBatch(net, criterion, optimizer):
     preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
     print('TMP::preds.shape', preds.shape)
     print('TMP::text.shape', text.shape)
+    print('TMP::len(text)', len(text))
     cost = criterion(preds, text, preds_size, length) / batch_size
     crnn.zero_grad()
     cost.backward()
