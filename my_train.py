@@ -172,6 +172,8 @@ def trainBatch(net, criterion, optimizer):
     data = next(train_iter)
     cpu_images, cpu_texts = data
     batch_size = cpu_images.size(0)
+    print('TMP::prev cpu_images', cpu_images)
+    print('TMP::prev image', image)
     utils.loadData(image, cpu_images)
     t, l = converter.encode(cpu_texts)
     utils.loadData(text, t)
