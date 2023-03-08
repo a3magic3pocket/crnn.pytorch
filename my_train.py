@@ -147,8 +147,6 @@ def val(net, dataset, criterion, max_iter=100):
         utils.loadData(text, t)
         utils.loadData(length, l)
         
-        print('TMP::image', image)
-
         preds = crnn(image)
         preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
         cost = criterion(preds, text, preds_size, length) / batch_size
@@ -179,6 +177,7 @@ def trainBatch(net, criterion, optimizer):
     utils.loadData(text, t)
     utils.loadData(length, l)
 
+    print('TMP::image', image)
     preds = crnn(image)
     preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
     cost = criterion(preds, text, preds_size, length) / batch_size
