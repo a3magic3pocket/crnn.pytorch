@@ -178,6 +178,7 @@ def trainBatch(net, criterion, optimizer):
     utils.loadData(image, cpu_images)
     
     print('TMP::prev cpu_texts', cpu_texts)
+    print('TMP::prev len(cpu_texts)', len(cpu_texts))
     t, l = converter.encode(cpu_texts)
     # utils.loadData(text, t)
     utils.loadData(length, l)
