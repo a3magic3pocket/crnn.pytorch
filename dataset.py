@@ -50,6 +50,9 @@ class lmdbDataset(Dataset):
             buf.seek(0)
             try:
                 img = Image.open(buf).convert('L')
+                print('TMP::img', img.shape)
+                import sys
+                sys.exit(1)
             except IOError:
                 print('Corrupted image for %d' % index)
                 return self[index + 1]
