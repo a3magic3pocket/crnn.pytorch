@@ -145,7 +145,7 @@ def val(net, dataset, criterion, max_iter=100):
         batch_size = cpu_images.size(0)
         utils.loadData(image, cpu_images)
         t, l = converter.encode(cpu_texts)
-        # utils.loadData(text, t)
+        utils.loadData(text, t)
         utils.loadData(length, l)
         
         preds = crnn(image)
@@ -179,7 +179,7 @@ def trainBatch(net, criterion, optimizer):
     
     print('TMP::prev cpu_texts', cpu_texts)
     t, l = converter.encode(cpu_texts)
-    utils.loadData(text, t)
+    # utils.loadData(text, t)
     utils.loadData(length, l)
 
     print('TMP::type(image)', type(image))
