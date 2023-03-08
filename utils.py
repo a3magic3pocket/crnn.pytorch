@@ -133,8 +133,7 @@ def oneHot(v, v_length, nc):
 def loadData(v, data):
     print('TMP::data.size()', data.size())
     print('TMP::prev v.data.size()', v.data.size())
-    # v.data.resize_(data.size()).copy_(data)
-    v.data.resize_(data.size())
+    v.data.resize_(data.size()).copy_(data)
     print('TMP::v.data.size()', v.data.size())
 
 
