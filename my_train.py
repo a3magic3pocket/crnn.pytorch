@@ -125,13 +125,16 @@ else:
 
 def val(net, dataset, criterion, max_iter=100):
     print('Start val')
+    global image
+    global text
+    global length
 
     for p in crnn.parameters():
         p.requires_grad = False
 
     net.eval()
     data_loader = torch.utils.data.DataLoader(
-        dataset, shuffle=True, batch_size=opt.batchSize, num_workers=int(opt.workers))
+        dataset, batch_size=opt.batchSize, num_workers=int(opt.workers))
     val_iter = iter(data_loader)
 
     i = 0
