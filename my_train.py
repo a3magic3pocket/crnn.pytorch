@@ -143,10 +143,13 @@ def val(net, dataset, criterion, max_iter=100):
         i += 1
         cpu_images, cpu_texts = data
         batch_size = cpu_images.size(0)
-        utils.loadData(image, cpu_images)
+        image = utils.loadData(image, cpu_images)
+        # utils.loadData(image, cpu_images)
         t, l = converter.encode(cpu_texts)
-        utils.loadData(text, t)
-        utils.loadData(length, l)
+        text = utils.loadData(text, t)
+        # utils.loadData(text, t)
+        length = utils.loadData(length, l)
+        # utils.loadData(length, l)
         
         preds = crnn(image)
         preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
@@ -175,14 +178,17 @@ def trainBatch(net, criterion, optimizer):
     batch_size = cpu_images.size(0)
     print('TMP::prev cpu_images', cpu_images.shape)
     print('TMP::prev image', image.shape)
-    utils.loadData(image, cpu_images)
+    image = utils.loadData(image, cpu_images)
+    # utils.loadData(image, cpu_images)
     
     print('TMP::prev cpu_texts', cpu_texts)
     print('TMP::prev len(cpu_texts)', len(cpu_texts))
     t, l = converter.encode(cpu_texts)
     print('TMP::prev len(t)', len(t))
-    utils.loadData(text, t)
-    utils.loadData(length, l)
+    text = utils.loadData(text, t)
+    # utils.loadData(text, t)
+    length = utils.loadData(length, l)
+    # utils.loadData(length, l)
 
     print('TMP::type(image)', type(image))
     print('TMP::image.shape', image.shape)
