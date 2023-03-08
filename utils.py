@@ -40,8 +40,6 @@ class strLabelConverter(object):
             torch.IntTensor [n]: length of each text.
         """
         if isinstance(text, str):
-            print('TMP::text', text)
-            print('TMP::type(text)', type(text))
             text = [
                 self.dict[char.lower() if self._ignore_case else char]
                 for char in text
