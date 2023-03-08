@@ -146,6 +146,8 @@ def val(net, dataset, criterion, max_iter=100):
         t, l = converter.encode(cpu_texts)
         utils.loadData(text, t)
         utils.loadData(length, l)
+        
+        print('TMP::image', image)
 
         preds = crnn(image)
         preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
