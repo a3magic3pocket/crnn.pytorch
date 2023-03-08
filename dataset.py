@@ -50,9 +50,6 @@ class lmdbDataset(Dataset):
             buf.seek(0)
             try:
                 img = Image.open(buf).convert('L')
-                print('TMP::img', img.shape)
-                import sys
-                sys.exit(1)
             except IOError:
                 print('Corrupted image for %d' % index)
                 return self[index + 1]
@@ -133,7 +130,12 @@ class alignCollate(object):
             imgW = max(imgH * self.min_ratio, imgW)  # assure imgH >= imgW
 
         transform = resizeNormalize((imgW, imgH))
-        images = [transform(image) for image in images]
+        # images = [transform(image) for image in images]
+        images = []
+        for image in images:
+            print('type(image)', type(image))
+            print('image.size', image.size)
+            images.append(transform(image))
         images = torch.cat([t.unsqueeze(0) for t in images], 0)
 
         return images, labels
