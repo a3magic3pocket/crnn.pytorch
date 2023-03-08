@@ -133,6 +133,7 @@ def oneHot(v, v_length, nc):
 def loadData(v, data):
     print('TMP::data.size()', data.size())
     v.data.resize_(data.size()).copy_(data)
+    print('TMP::v.data.size()', v.data.size())
 
 
 def prettyPrint(v):
