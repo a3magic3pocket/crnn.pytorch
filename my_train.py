@@ -178,7 +178,7 @@ def trainBatch(net, criterion, optimizer):
     utils.loadData(image, cpu_images)
     
     t, l = converter.encode(cpu_texts)
-    utils.loadData(text, t)
+    # utils.loadData(text, t)
     utils.loadData(length, l)
 
     print('TMP::type(image)', type(image))
