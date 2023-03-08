@@ -36,6 +36,7 @@ class CRNN(nn.Module):
         def convRelu(i, batchNormalization=False):
             nIn = nc if i == 0 else nm[i - 1]
             nOut = nm[i]
+            print('TMP::nIn', nIn)
             cnn.add_module('conv{0}'.format(i),
                            nn.Conv2d(nIn, nOut, ks[i], ss[i], ps[i]))
             if batchNormalization:
