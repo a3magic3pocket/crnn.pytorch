@@ -180,7 +180,8 @@ def trainBatch(net, criterion, optimizer):
     print('TMP::prev cpu_texts', cpu_texts)
     print('TMP::prev len(cpu_texts)', len(cpu_texts))
     t, l = converter.encode(cpu_texts)
-    # utils.loadData(text, t)
+    print('TMP::prev len(t)', len(t))
+    utils.loadData(text, t)
     utils.loadData(length, l)
 
     print('TMP::type(image)', type(image))
