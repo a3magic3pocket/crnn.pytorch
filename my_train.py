@@ -56,7 +56,7 @@ cudnn.benchmark = True
 if torch.cuda.is_available() and not opt.cuda:
     print("WARNING: You have a CUDA device, so you should probably run with --cuda")
 
-train_dataset = dataset.lmdbDataset(root=opt.trainroot)
+train_dataset = dataset.lmdbDataset(root=opt.trainRoot)
 assert train_dataset
 if not opt.random_sample:
     sampler = dataset.randomSequentialSampler(train_dataset, opt.batchSize)
