@@ -72,6 +72,7 @@ test_dataset = dataset.lmdbDataset(
 
 nclass = len(opt.alphabet) + 1
 nc = 1
+debug = False
 
 converter = utils.strLabelConverter(opt.alphabet)
 criterion = torch.nn.CTCLoss()
@@ -179,27 +180,27 @@ def trainBatch(net, criterion, optimizer):
     data = next(train_iter)
     cpu_images, cpu_texts = data
     batch_size = cpu_images.size(0)
-    print('TMP::prev cpu_images', cpu_images.shape)
-    print('TMP::prev image', image.shape)
+    debug and print('TMP::prev cpu_images', cpu_images.shape)
+    debug and print('TMP::prev image', image.shape)
     image = utils.loadData(image, cpu_images)
     # utils.loadData(image, cpu_images)
     
-    print('TMP::prev cpu_texts', cpu_texts)
-    print('TMP::prev len(cpu_texts)', len(cpu_texts))
+    debug and print('TMP::prev cpu_texts', cpu_texts)
+    debug and print('TMP::prev len(cpu_texts)', len(cpu_texts))
     t, l = converter.encode(cpu_texts)
-    print('TMP::prev len(t)', len(t))
+    debug and print('TMP::prev len(t)', len(t))
     text = utils.loadData(text, t)
     # utils.loadData(text, t)
     length = utils.loadData(length, l)
     # utils.loadData(length, l)
 
-    print('TMP::type(image)', type(image))
-    print('TMP::image.shape', image.shape)
+    debug and print('TMP::type(image)', type(image))
+    debug and print('TMP::image.shape', image.shape)
     preds = crnn(image)
     preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
-    print('TMP::preds.shape', preds.shape)
-    print('TMP::text.shape', text.shape)
-    print('TMP::len(text)', len(text))
+    debug and print('TMP::preds.shape', preds.shape)
+    debug and print('TMP::text.shape', text.shape)
+    debug and print('TMP::len(text)', len(text))
     cost = criterion(preds, text, preds_size, length) / batch_size
     crnn.zero_grad()
     cost.backward()
