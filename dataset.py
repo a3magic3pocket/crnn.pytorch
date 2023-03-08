@@ -138,6 +138,6 @@ class alignCollate(object):
             print('tmp.size', tmp.size)
             tmps.append(transform(tmp))
         images = torch.cat([t.unsqueeze(0) for t in tmps], 0)
-        print('images[0]', images[0])
+        print('images[0]', images[0].shape)
 
         return images, labels
