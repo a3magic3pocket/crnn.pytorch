@@ -9,3 +9,4 @@ tool/result
 tool/*crnn_images
 tool/*crnn_images_lmdb
 tool/*.zip
+tool/*.7z
