@@ -19,7 +19,10 @@ def writeCache(env, cache):
     with env.begin(write=True) as txn:
         for k, v in cache.items():
             # txn.put(k, v)
-            txn.put(str(k).encode(), str(v).encode())
+            if type(v) is str:
+                txn.put(str(k).encode(), v.encode())
+            else:
+                txn.put(str(k).encode(), v)
 
 
 
