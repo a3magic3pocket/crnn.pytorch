@@ -162,13 +162,17 @@ def val(net, dataset, criterion, max_iter=100):
 
         _, preds = preds.max(2)
         print('preds', preds)
-        print('preds.shape', preds.shape)
-        print('target.shape', target.shape)
-        print('preds.squeeze(1)', preds.squeeze(1))
-        preds = preds.squeeze(2)
+        print('prev preds.shape', preds.shape)
+        # preds = preds.squeeze(2)
         preds = preds.transpose(1, 0).contiguous().view(-1)
+        print('transpose preds.shape', preds.shape)
         sim_preds = converter.decode(preds.data, preds_size.data, raw=False)
+        print('transpose sim_preds.shape', sim_preds.shape)
         for pred, target in zip(sim_preds, cpu_texts):
+            print('target.shape', target.shape)
+            print('target', target)
+            import sys
+            sys.exit(1)
             if pred == target.lower():
                 n_correct += 1
 
