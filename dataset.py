@@ -50,6 +50,8 @@ class lmdbDataset(Dataset):
             buf.seek(0)
             try:
                 img = Image.open(buf).convert('L')
+                from IPython.display import display
+                display(img)
             except IOError:
                 print('Corrupted image for %d' % index)
                 return self[index + 1]
@@ -59,6 +61,7 @@ class lmdbDataset(Dataset):
 
             label_key = 'label-%09d' % index
             label = txn.get(label_key.encode()).decode('utf-8')
+            print(label, 'label')
 
             if self.target_transform is not None:
                 label = self.target_transform(label)
