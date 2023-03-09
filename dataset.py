@@ -52,6 +52,7 @@ class lmdbDataset(Dataset):
                 img = Image.open(buf).convert('L')
                 from IPython.display import display
                 display(img)
+                img.show() 
             except IOError:
                 print('Corrupted image for %d' % index)
                 return self[index + 1]
