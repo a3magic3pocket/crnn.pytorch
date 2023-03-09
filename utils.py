@@ -44,14 +44,11 @@ class strLabelConverter(object):
                 self.dict[char.lower() if self._ignore_case else char]
                 for char in text
             ]
-            print('TMP::text in str', text)
             length = [len(text)]
         elif isinstance(text, collections.Iterable):
             length = [len(s) for s in text]
             text = ''.join(text)
-            print('TMP::text', text)
             text, _ = self.encode(text)
-            print('TMP::torch.IntTensor(text)', torch.IntTensor(text))
         return (torch.IntTensor(text), torch.IntTensor(length))
 
     def decode(self, t, length, raw=False):

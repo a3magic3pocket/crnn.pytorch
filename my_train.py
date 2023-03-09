@@ -214,13 +214,6 @@ def trainBatch(net, criterion, optimizer):
     print('TMP::len(cpu_texts)', len(cpu_texts))
     print('TMP::copied_image', copied_image)
     print('TMP::copied_image.shape', copied_image.shape)
-    print('TMP::copied_text', copied_text)
-    print('TMP::len(copied_text)', len(copied_text))
-    print('TMP::copied_length', copied_length)
-    print('TMP::len(copied_length)', len(copied_length))
-    converted = converter.decode(t, l)
-    print('TMP::cpu_texts', cpu_texts)
-    print('TMP::converted', converted)
     import sys
     sys.exit(1)
 
