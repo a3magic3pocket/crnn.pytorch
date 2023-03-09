@@ -95,8 +95,7 @@ if opt.pretrained != '':
     crnn.load_state_dict(torch.load(opt.pretrained))
 print(crnn)
 
-# image = torch.FloatTensor(opt.batchSize, 3, opt.imgH, opt.imgH)
-image = torch.FloatTensor(opt.batchSize, 1, opt.imgH, opt.imgH)
+image = torch.FloatTensor(opt.batchSize, 3, opt.imgH, opt.imgH)
 text = torch.IntTensor(opt.batchSize * 5)
 length = torch.IntTensor(opt.batchSize)
 
