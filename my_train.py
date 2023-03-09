@@ -103,6 +103,8 @@ if opt.pretrained != '':
     
     pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
     
+    print('pretrained_dict', pretrained_dict)
+    
     model_dict.update(pretrained_dict)
     
     crnn.load_state_dict(pretrained_dict)
