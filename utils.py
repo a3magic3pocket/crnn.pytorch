@@ -49,8 +49,8 @@ class strLabelConverter(object):
             length = [len(s) for s in text]
             text = ''.join(text)
             print('TMP::text', text)
-            print('TMP::torch.IntTensor(text)', torch.IntTensor(text))
             text, _ = self.encode(text)
+            print('TMP::torch.IntTensor(text)', torch.IntTensor(text))
         return (torch.IntTensor(text), torch.IntTensor(length))
 
     def decode(self, t, length, raw=False):
