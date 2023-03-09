@@ -100,7 +100,6 @@ if opt.pretrained != '':
     model_dict = crnn.state_dict()
     refined_model_dict = {}
     
-    print('pretrained_dict.keys()', pretrained_dict.keys())
     for layer_name in pretrained_dict:
         pretrained_layer_weight = pretrained_dict[layer_name]
         init_layer_weight = model_dict[layer_name]
@@ -111,7 +110,7 @@ if opt.pretrained != '':
                 refined_model_dict[layer_name] = pretrained_layer_weight[:init_layer_weight.shape[0], :]
         elif layer_name == 'rnn.1.embedding.bias' \
             and pretrained_layer_weight.shape[0] > init_layer_weight.shape[0]:
-                refined_model_dict[layer_name] = pretrained_layer_weight[:init_layer_weight.shape[0], :]
+                refined_model_dict[layer_name] = pretrained_layer_weight[:init_layer_weight.shape[0]]
         elif pretrained_layer_weight.shape == init_layer_weight.shape:
             refined_model_dict[layer_name] = pretrained_layer_weight
         else:
