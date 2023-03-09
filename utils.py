@@ -48,6 +48,7 @@ class strLabelConverter(object):
         elif isinstance(text, collections.Iterable):
             length = [len(s) for s in text]
             text = ''.join(text)
+            print('TMP::text', text)
             text, _ = self.encode(text)
         return (torch.IntTensor(text), torch.IntTensor(length))
 
