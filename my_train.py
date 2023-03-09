@@ -181,6 +181,7 @@ def val(net, dataset, criterion, max_iter=100):
         preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
         cost = criterion(preds, copied_text, preds_size, copied_length) / batch_size
         loss_avg.add(cost)
+        print('preds', preds)
 
         _, preds = preds.max(2)
         # preds = preds.squeeze(2)
