@@ -219,6 +219,8 @@ def trainBatch(net, criterion, optimizer):
     preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
     print('preds_size', preds_size)
     print('len(preds_size)', len(preds_size))
+    print('copied_text', copied_text)
+    print('len(copied_text)', len(copied_text))
     cost = criterion(preds, copied_text, preds_size, copied_length) / batch_size
     print('cost', cost)
     import sys
