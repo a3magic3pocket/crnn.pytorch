@@ -114,9 +114,9 @@ if opt.pretrained != '':
     
     crnn.load_state_dict(pretrained_dict)
     
-    import sys
-    sys.exit(1)
 print(crnn)
+import sys
+sys.exit(1)
 
 image = torch.FloatTensor(opt.batchSize, 3, opt.imgH, opt.imgH)
 text = torch.IntTensor(opt.batchSize * 5)
