@@ -7,7 +7,7 @@ from PIL import Image
 import models.crnn as crnn
 
 def detect(model_path, img_path, alphabet='0123456789abcdefghijklmnopqrstuvwxyz'):
-    model = crnn.CRNN(32, 1, 37, 256)
+    model = crnn.CRNN(32, 1, 11, 256)
     if torch.cuda.is_available():
         model = model.cuda()
     print('loading pretrained model from %s' % model_path)
