@@ -73,6 +73,8 @@ test_dataset = dataset.lmdbDataset(
 nclass = len(opt.alphabet) + 1
 nc = 1
 debug = False
+print("nclass", nclass)
+print("opt.alphabet", opt.alphabet)
 
 converter = utils.strLabelConverter(opt.alphabet)
 criterion = torch.nn.CTCLoss()
@@ -86,7 +88,6 @@ def weights_init(m):
     elif classname.find('BatchNorm') != -1:
         m.weight.data.normal_(1.0, 0.02)
         m.bias.data.fill_(0)
-
 
 crnn = crnn.CRNN(opt.imgH, nc, nclass, opt.nh)
 crnn.apply(weights_init)
