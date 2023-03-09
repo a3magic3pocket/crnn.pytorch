@@ -132,7 +132,7 @@ def oneHot(v, v_length, nc):
 
 def loadData(v, data):
     # v.data.resize_(data.size()).copy_(data)
-    return torch.new_tensor(data, requires_grad=True)
+    return data.new_tensor(data, requires_grad=True)
 
 
 def prettyPrint(v):
