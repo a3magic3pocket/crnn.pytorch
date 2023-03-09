@@ -104,18 +104,15 @@ if opt.pretrained != '':
     for layer_name in pretrained_dict:
         pretrained_layer_weight = pretrained_dict[layer_name]
         init_layer_weight = model_dict[layer_name]
-        if len(pretrained_layer_weight.shape) == len(init_layer_weight.shape) \
-            and len(pretrained_layer_weight.shape) <= 2 \
-            and pretrained_layer_weight.shape[0] != init_layer_weight.shape[0]:
-                print('pretrained_layer_weight.shape', pretrained_layer_weight.shape)
-                print('init_layer_weight.shape', init_layer_weight.shape)
-                a = pretrained_layer_weight[:init_layer_weight.shape[0], :]
-                print('a.shape', a.shape)
-                
-                import sys
-                sys.exit(1)
-            
-        if pretrained_layer_weight.shape == init_layer_weight.shape:
+        # Important layers: 'rnn.1.embedding.weight', 'rnn.1.embedding.bias'
+        if layer_name == 'rnn.1.embedding.weight' \
+            and pretrained_layer_weight.shape[0] > init_layer_weight.shape[0] \
+            and pretrained_layer_weight.shape[1] == init_layer_weight.shape[1]:
+                refined_model_dict[layer_name] = pretrained_layer_weight[:init_layer_weight.shape[0], :]
+        elif layer_name == 'rnn.1.embedding.bias' \
+            and pretrained_layer_weight.shape[0] > init_layer_weight.shape[0]:
+                refined_model_dict[layer_name] = pretrained_layer_weight[:init_layer_weight.shape[0], :]
+        elif pretrained_layer_weight.shape == init_layer_weight.shape:
             refined_model_dict[layer_name] = pretrained_layer_weight
         else:
             refined_model_dict[layer_name] = init_layer_weight
