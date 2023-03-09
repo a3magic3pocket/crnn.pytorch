@@ -103,7 +103,7 @@ if opt.pretrained != '':
     
     pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
     
-    print('pretrained_dict', pretrained_dict.key())
+    print('pretrained_dict', pretrained_dict.keys())
     
     model_dict.update(pretrained_dict)
     
