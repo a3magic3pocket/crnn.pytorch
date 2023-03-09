@@ -204,10 +204,6 @@ def trainBatch(net, criterion, optimizer):
     global length
     data = next(train_iter)
     cpu_images, cpu_texts = data
-    print('cpu_images', cpu_images)
-    import sys
-    sys.exit(1)
-
     batch_size = cpu_images.size(0)
     copied_image = utils.loadData(image, cpu_images)
     
