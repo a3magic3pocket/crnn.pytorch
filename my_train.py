@@ -161,6 +161,9 @@ def val(net, dataset, criterion, max_iter=100):
         loss_avg.add(cost)
 
         _, preds = preds.max(2)
+        print('preds', preds)
+        print('preds.shape', preds.shape)
+        print('preds.squeeze(1)', preds.squeeze(1))
         preds = preds.squeeze(2)
         preds = preds.transpose(1, 0).contiguous().view(-1)
         sim_preds = converter.decode(preds.data, preds_size.data, raw=False)
