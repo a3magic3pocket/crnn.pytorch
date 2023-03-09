@@ -214,7 +214,7 @@ def trainBatch(net, criterion, optimizer):
 
     preds = crnn(copied_image)
     print('preds', preds)
-    print('preds.size', preds.size)
+    print('preds.shape', preds.shape)
     preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
     print('preds_size', preds_size)
     import sys
