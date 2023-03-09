@@ -99,6 +99,8 @@ if opt.pretrained != '':
     pretrained_dict = torch.load(opt.pretrained)
     model_dict = crnn.state_dict()
     refined_model_dict = {}
+    
+    print('pretrained_dict.keys()', pretrained_dict.keys())
     for layer_name in pretrained_dict:
         pretrained_layer_weight = pretrained_dict[layer_name]
         init_layer_weight = model_dict[layer_name]
@@ -107,6 +109,8 @@ if opt.pretrained != '':
             and pretrained_layer_weight.shape[0] != init_layer_weight.shape[0]:
                 print('pretrained_layer_weight.shape', pretrained_layer_weight.shape)
                 print('init_layer_weight.shape', init_layer_weight.shape)
+                a = pretrained_layer_weight[:init_layer_weight.shape[0], :]
+                print('a.shape', a.shape)
                 
                 import sys
                 sys.exit(1)
