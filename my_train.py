@@ -93,7 +93,21 @@ crnn = crnn.CRNN(opt.imgH, nc, nclass, opt.nh)
 crnn.apply(weights_init)
 if opt.pretrained != '':
     print('loading pretrained model from %s' % opt.pretrained)
-    crnn.load_state_dict(torch.load(opt.pretrained), strict=False)
+    
+    
+    
+    # crnn.load_state_dict(torch.load(opt.pretrained))
+    
+    pretrained_dict = torch.load(opt.pretrained)
+    model_dict = crnn.state_dict()
+    
+    pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
+    
+    model_dict.update(pretrained_dict)
+    
+    
+    import sys
+    sys.exit(1)
 print(crnn)
 
 image = torch.FloatTensor(opt.batchSize, 3, opt.imgH, opt.imgH)
