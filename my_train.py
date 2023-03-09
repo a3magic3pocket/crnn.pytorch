@@ -105,6 +105,7 @@ if opt.pretrained != '':
     
     model_dict.update(pretrained_dict)
     
+    crnn.load_state_dict(pretrained_dict)
     
     import sys
     sys.exit(1)
