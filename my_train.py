@@ -103,7 +103,12 @@ if opt.pretrained != '':
     
     pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
     
-    print('pretrained_dict', pretrained_dict.keys())
+    print('crnn', crnn)
+    
+    for k in pretrained_dict:
+        print('k', k)
+        layer = pretrained_dict[k]
+        print('layer.shape', layer.shape)
     
     model_dict.update(pretrained_dict)
     
