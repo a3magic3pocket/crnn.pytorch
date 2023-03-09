@@ -11,6 +11,7 @@ def detect(model_path, img_path, alphabet='0123456789abcdefghijklmnopqrstuvwxyz'
     if torch.cuda.is_available():
         model = model.cuda()
     print('loading pretrained model from %s' % model_path)
+    print('model', model)
     model.load_state_dict(torch.load(model_path))
 
     converter = utils.strLabelConverter(alphabet)
