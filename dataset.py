@@ -50,7 +50,7 @@ class lmdbDataset(Dataset):
             buf.seek(0)
             try:
                 img = Image.open(buf).convert('L')
-                img.save("qwerasdf" + index)
+                img.save(f"qwerasdf{index}.jpg", "jpg")
             except IOError:
                 print('Corrupted image for %d' % index)
                 return self[index + 1]
