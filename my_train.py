@@ -143,7 +143,7 @@ def val(net, dataset, criterion, max_iter=100):
 
     max_iter = min(max_iter, len(data_loader))
     for i in range(max_iter):
-        data = val_iter.next()
+        data = next(val_iter)
         i += 1
         cpu_images, cpu_texts = data
         batch_size = cpu_images.size(0)
