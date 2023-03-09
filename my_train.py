@@ -73,6 +73,8 @@ test_dataset = dataset.lmdbDataset(
 nclass = len(opt.alphabet) + 1
 nc = 1
 debug = False
+print("nclass", nclass)
+print("opt.alphabet", opt.alphabet)
 
 converter = utils.strLabelConverter(opt.alphabet)
 criterion = torch.nn.CTCLoss()
@@ -87,16 +89,39 @@ def weights_init(m):
         m.weight.data.normal_(1.0, 0.02)
         m.bias.data.fill_(0)
 
-
 crnn = crnn.CRNN(opt.imgH, nc, nclass, opt.nh)
 crnn.apply(weights_init)
 if opt.pretrained != '':
     print('loading pretrained model from %s' % opt.pretrained)
-    crnn.load_state_dict(torch.load(opt.pretrained))
+    ## origin start ##
+    # crnn.load_state_dict(torch.load(opt.pretrained))
+    ## origin end ##
+    pretrained_dict = torch.load(opt.pretrained)
+    model_dict = crnn.state_dict()
+    refined_model_dict = {}
+    
+    for layer_name in pretrained_dict:
+        pretrained_layer_weight = pretrained_dict[layer_name]
+        init_layer_weight = model_dict[layer_name]
+        # Important layers: 'rnn.1.embedding.weight', 'rnn.1.embedding.bias'
+        if layer_name == 'rnn.1.embedding.weight' \
+            and pretrained_layer_weight.shape[0] > init_layer_weight.shape[0] \
+            and pretrained_layer_weight.shape[1] == init_layer_weight.shape[1]:
+                refined_model_dict[layer_name] = pretrained_layer_weight[:init_layer_weight.shape[0], :]
+        elif layer_name == 'rnn.1.embedding.bias' \
+            and pretrained_layer_weight.shape[0] > init_layer_weight.shape[0]:
+                refined_model_dict[layer_name] = pretrained_layer_weight[:init_layer_weight.shape[0]]
+        elif pretrained_layer_weight.shape == init_layer_weight.shape:
+            refined_model_dict[layer_name] = pretrained_layer_weight
+        else:
+            refined_model_dict[layer_name] = init_layer_weight
+  
+    model_dict.update(refined_model_dict)
+    crnn.load_state_dict(refined_model_dict)
+
 print(crnn)
 
-# image = torch.FloatTensor(opt.batchSize, 3, opt.imgH, opt.imgH)
-image = torch.FloatTensor(opt.batchSize, 1, opt.imgH, opt.imgH)
+image = torch.FloatTensor(opt.batchSize, 3, opt.imgH, opt.imgH)
 text = torch.IntTensor(opt.batchSize * 5)
 length = torch.IntTensor(opt.batchSize)
 
@@ -143,25 +168,23 @@ def val(net, dataset, criterion, max_iter=100):
 
     max_iter = min(max_iter, len(data_loader))
     for i in range(max_iter):
-        data = val_iter.next()
+        data = next(val_iter)
         i += 1
         cpu_images, cpu_texts = data
         batch_size = cpu_images.size(0)
-        image = utils.loadData(image, cpu_images)
-        # utils.loadData(image, cpu_images)
+        copied_image = utils.loadData(image, cpu_images)
         t, l = converter.encode(cpu_texts)
-        text = utils.loadData(text, t)
-        # utils.loadData(text, t)
-        length = utils.loadData(length, l)
-        # utils.loadData(length, l)
+        copied_text = utils.loadData(text, t)
+        copied_length = utils.loadData(length, l)
         
-        preds = crnn(image)
+        preds = crnn(copied_image)
         preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
-        cost = criterion(preds, text, preds_size, length) / batch_size
+        cost = criterion(preds, copied_text, preds_size, copied_length) / batch_size
         loss_avg.add(cost)
+        print('preds', preds)
 
         _, preds = preds.max(2)
-        preds = preds.squeeze(2)
+        # preds = preds.squeeze(2)
         preds = preds.transpose(1, 0).contiguous().view(-1)
         sim_preds = converter.decode(preds.data, preds_size.data, raw=False)
         for pred, target in zip(sim_preds, cpu_texts):
@@ -183,28 +206,15 @@ def trainBatch(net, criterion, optimizer):
     data = next(train_iter)
     cpu_images, cpu_texts = data
     batch_size = cpu_images.size(0)
-    debug and print('TMP::prev cpu_images', cpu_images.shape)
-    debug and print('TMP::prev image', image.shape)
-    image = utils.loadData(image, cpu_images)
-    # utils.loadData(image, cpu_images)
+    copied_image = utils.loadData(image, cpu_images)
     
-    debug and print('TMP::prev cpu_texts', cpu_texts)
-    debug and print('TMP::prev len(cpu_texts)', len(cpu_texts))
     t, l = converter.encode(cpu_texts)
-    debug and print('TMP::prev len(t)', len(t))
-    text = utils.loadData(text, t)
-    # utils.loadData(text, t)
-    length = utils.loadData(length, l)
-    # utils.loadData(length, l)
+    copied_text = utils.loadData(text, t)
+    copied_length = utils.loadData(length, l)
 
-    debug and print('TMP::type(image)', type(image))
-    debug and print('TMP::image.shape', image.shape)
-    preds = crnn(image)
+    preds = crnn(copied_image)
     preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
-    debug and print('TMP::preds.shape', preds.shape)
-    debug and print('TMP::text.shape', text.shape)
-    debug and print('TMP::len(text)', len(text))
-    cost = criterion(preds, text, preds_size, length) / batch_size
+    cost = criterion(preds, copied_text, preds_size, copied_length) / batch_size
     crnn.zero_grad()
     cost.backward()
     optimizer.step()
