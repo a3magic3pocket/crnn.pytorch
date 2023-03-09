@@ -213,6 +213,7 @@ def trainBatch(net, criterion, optimizer):
     copied_length = utils.loadData(length, l)
 
     preds = crnn(copied_image)
+    print('copied_length', copied_length)
     print('copied_image.shape', copied_image.shape)
     print('preds.shape', preds.shape)
     preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
