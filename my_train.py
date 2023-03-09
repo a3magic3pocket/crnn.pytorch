@@ -163,6 +163,7 @@ def val(net, dataset, criterion, max_iter=100):
         _, preds = preds.max(2)
         print('preds', preds)
         print('preds.shape', preds.shape)
+        print('target.shape', target.shape)
         print('preds.squeeze(1)', preds.squeeze(1))
         preds = preds.squeeze(2)
         preds = preds.transpose(1, 0).contiguous().view(-1)
