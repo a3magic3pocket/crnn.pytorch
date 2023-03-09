@@ -105,6 +105,10 @@ if opt.pretrained != '':
         
         print('pretrained_layer_weight.shape', pretrained_layer_weight.shape)
         print('init_layer_weight.shape', init_layer_weight.shape)
+        if pretrained_layer_weight.shape == init_layer_weight.shape:
+            print('true')
+        else:
+            print('false')
         
         # if layer_name in ['rnn.1.embedding.weight', 'rnn.1.embedding.bias']:
         #     refined_model_dict[layer_name] = model_dict[layer_name]
