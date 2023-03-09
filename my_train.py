@@ -105,10 +105,15 @@ if opt.pretrained != '':
     
     print('crnn', crnn)
     
+    refined_model_dict = {}
     for layer_name in pretrained_dict:
         print('layer_name', layer_name)
         layer_weight = pretrained_dict[layer_name]
         print('layer_weight.shape', layer_weight.shape)
+        if layer_name in ['rnn.1.embedding.weight', 'rnn.1.embedding.bias']:
+            refined_model_dict[layer_name] = model_dict[layer_name]
+        else:
+            refined_model_dict[layer_name] = layer_weight
         
     print('model_dict', model_dict.keys())
     
