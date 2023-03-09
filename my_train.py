@@ -117,9 +117,9 @@ if opt.pretrained != '':
         
     print('model_dict', model_dict.keys())
     
-    model_dict.update(pretrained_dict)
+    model_dict.update(refined_model_dict)
     
-    crnn.load_state_dict(pretrained_dict)
+    crnn.load_state_dict(refined_model_dict)
     import sys
     sys.exit(1)
     
