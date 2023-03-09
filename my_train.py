@@ -181,7 +181,6 @@ def val(net, dataset, criterion, max_iter=100):
         preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
         cost = criterion(preds, copied_text, preds_size, copied_length) / batch_size
         loss_avg.add(cost)
-        print('preds', preds)
 
         _, preds = preds.max(2)
         # preds = preds.squeeze(2)
@@ -205,6 +204,10 @@ def trainBatch(net, criterion, optimizer):
     global length
     data = next(train_iter)
     cpu_images, cpu_texts = data
+    print('cpu_images', cpu_images)
+    import sys
+    sys.exit(1)
+
     batch_size = cpu_images.size(0)
     copied_image = utils.loadData(image, cpu_images)
     
@@ -214,15 +217,7 @@ def trainBatch(net, criterion, optimizer):
 
     preds = crnn(copied_image)
     preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
-    print('preds.shape', preds.shape)
-    print('copied_text.shape', copied_text.shape)
-    print('preds_size', preds_size)
-    print('copied_length', copied_length)
-
     cost = criterion(preds, copied_text, preds_size, copied_length) / batch_size
-    print('cost', cost)
-    import sys
-    sys.exit(1)
     crnn.zero_grad()
     cost.backward()
     optimizer.step()
