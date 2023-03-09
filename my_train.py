@@ -219,6 +219,8 @@ def trainBatch(net, criterion, optimizer):
     print('len(copied_text)', len(copied_text))
     print('copied_length', copied_length)
     print('len(copied_length)', len(copied_length))
+    converted = converter.decode(t, l)
+    print('converted', converted)
     import sys
     sys.exit(1)
 
