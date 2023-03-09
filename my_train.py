@@ -105,14 +105,18 @@ if opt.pretrained != '':
     
     print('crnn', crnn)
     
-    for k in pretrained_dict:
-        print('k', k)
-        layer = pretrained_dict[k]
-        print('layer.shape', layer.shape)
+    for layer_name in pretrained_dict:
+        print('layer_name', layer_name)
+        layer_weight = pretrained_dict[layer_name]
+        print('layer_weight.shape', layer_weight.shape)
+        
+    print('model_dict', model_dict.keys())
     
     model_dict.update(pretrained_dict)
     
     crnn.load_state_dict(pretrained_dict)
+    import sys
+    sys.exit(1)
     
 print(crnn)
 
