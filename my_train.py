@@ -211,14 +211,14 @@ def trainBatch(net, criterion, optimizer):
     t, l = converter.encode(cpu_texts)
     copied_text = utils.loadData(text, t)
     copied_length = utils.loadData(length, l)
-    print('TMP::len(cpu_texts)', len(cpu_texts))
-    print('TMP::copied_image', copied_image)
-    print('TMP::copied_image.shape', copied_image.shape)
-    import sys
-    sys.exit(1)
 
     preds = crnn(copied_image)
+    print('preds', preds)
+    print('preds.size', preds.size)
     preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
+    print('preds_size', preds_size)
+    import sys
+    sys.exit(1)
     cost = criterion(preds, copied_text, preds_size, copied_length) / batch_size
     crnn.zero_grad()
     cost.backward()
