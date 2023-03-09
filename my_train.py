@@ -104,7 +104,8 @@ if opt.pretrained != '':
         init_layer_weight = model_dict[layer_name]
         if len(pretrained_layer_weight.shape) == len(init_layer_weight.shape) \
             and len(pretrained_layer_weight.shape) == 2 \
-            and pretrained_layer_weight.shape[1] == init_layer_weight.shape[1]:
+            and pretrained_layer_weight.shape[0] != init_layer_weight.shape[0] \
+            and pretrained_layer_weight.shape[1] == init_layer_weight.shape[1] \:
                 print('pretrained_layer_weight.shape', pretrained_layer_weight.shape)
                 print('init_layer_weight.shape', init_layer_weight.shape)
                 
