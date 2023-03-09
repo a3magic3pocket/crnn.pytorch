@@ -172,17 +172,14 @@ def val(net, dataset, criterion, max_iter=100):
         i += 1
         cpu_images, cpu_texts = data
         batch_size = cpu_images.size(0)
-        image = utils.loadData(image, cpu_images)
-        # utils.loadData(image, cpu_images)
+        copied_image = utils.loadData(image, cpu_images)
         t, l = converter.encode(cpu_texts)
-        text = utils.loadData(text, t)
-        # utils.loadData(text, t)
-        length = utils.loadData(length, l)
-        # utils.loadData(length, l)
+        copied_text = utils.loadData(text, t)
+        copied_length = utils.loadData(length, l)
         
-        preds = crnn(image)
+        preds = crnn(copied_image)
         preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
-        cost = criterion(preds, text, preds_size, length) / batch_size
+        cost = criterion(preds, copied_text, preds_size, copied_length) / batch_size
         loss_avg.add(cost)
 
         _, preds = preds.max(2)
@@ -208,28 +205,15 @@ def trainBatch(net, criterion, optimizer):
     data = next(train_iter)
     cpu_images, cpu_texts = data
     batch_size = cpu_images.size(0)
-    debug and print('TMP::prev cpu_images', cpu_images.shape)
-    debug and print('TMP::prev image', image.shape)
-    image = utils.loadData(image, cpu_images)
-    # utils.loadData(image, cpu_images)
+    copied_image = utils.loadData(image, cpu_images)
     
-    debug and print('TMP::prev cpu_texts', cpu_texts)
-    debug and print('TMP::prev len(cpu_texts)', len(cpu_texts))
     t, l = converter.encode(cpu_texts)
-    debug and print('TMP::prev len(t)', len(t))
-    text = utils.loadData(text, t)
-    # utils.loadData(text, t)
-    length = utils.loadData(length, l)
-    # utils.loadData(length, l)
+    copied_text = utils.loadData(text, t)
+    copied_length = utils.loadData(length, l)
 
-    debug and print('TMP::type(image)', type(image))
-    debug and print('TMP::image.shape', image.shape)
-    preds = crnn(image)
+    preds = crnn(copied_image)
     preds_size = Variable(torch.IntTensor([preds.size(0)] * batch_size))
-    debug and print('TMP::preds.shape', preds.shape)
-    debug and print('TMP::text.shape', text.shape)
-    debug and print('TMP::len(text)', len(text))
-    cost = criterion(preds, text, preds_size, length) / batch_size
+    cost = criterion(preds, copied_text, preds_size, copied_length) / batch_size
     crnn.zero_grad()
     cost.backward()
     optimizer.step()
