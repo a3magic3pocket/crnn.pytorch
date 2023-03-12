@@ -238,15 +238,15 @@ for epoch in range(opt.nepoch):
         if i % opt.displayInterval == 0:
             print('[%d/%d][%d/%d] Loss: %f' %
                   (epoch, opt.nepoch, i, len(train_loader), loss_avg.val()))
+            
+            if loss_avg.val() < lowest_cost:
+                # do checkpointing
+                print('save. loss_avg.val()', loss_avg.val())
+                torch.save(
+                    crnn.state_dict(), '{0}/netCRNN_{1}_{2}.pth'.format(opt.expr_dir, epoch, i))
+                lowest_cost = cost.sum()
+                
             loss_avg.reset()
 
         if i % opt.valInterval == 0:
             val(crnn, test_dataset, criterion)
-
-        # do checkpointing
-        # if i % opt.saveInterval == 0:
-        if cost.sum() < lowest_cost:
-            print('save. cost', cost)
-            torch.save(
-                crnn.state_dict(), '{0}/netCRNN_{1}_{2}.pth'.format(opt.expr_dir, epoch, i))
-            lowest_cost = cost.sum()
