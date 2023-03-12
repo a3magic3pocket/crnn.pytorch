@@ -225,6 +225,7 @@ def trainBatch(net, criterion, optimizer):
 for epoch in range(opt.nepoch):
     train_iter = iter(train_loader)
     i = 0
+    lowest_cost = float.inf
     while i < len(train_loader):
         for p in crnn.parameters():
             p.requires_grad = True
@@ -243,6 +244,9 @@ for epoch in range(opt.nepoch):
             val(crnn, test_dataset, criterion)
 
         # do checkpointing
-        if i % opt.saveInterval == 0:
+        # if i % opt.saveInterval == 0:
+        if cost.sum() < lowest_cost:
+            print('save. cost', cost)
             torch.save(
                 crnn.state_dict(), '{0}/netCRNN_{1}_{2}.pth'.format(opt.expr_dir, epoch, i))
+            lowest_cost = cost.sum()
