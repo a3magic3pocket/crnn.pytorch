@@ -225,7 +225,7 @@ def trainBatch(net, criterion, optimizer):
 for epoch in range(opt.nepoch):
     train_iter = iter(train_loader)
     i = 0
-    lowest_cost = float.inf
+    lowest_cost = float("inf")
     while i < len(train_loader):
         for p in crnn.parameters():
             p.requires_grad = True
