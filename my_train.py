@@ -103,6 +103,7 @@ if opt.pretrained != '':
     for layer_name in pretrained_dict:
         pretrained_layer_weight = pretrained_dict[layer_name]
         init_layer_weight = model_dict[layer_name]
+        """
         # Important layers: 'rnn.1.embedding.weight', 'rnn.1.embedding.bias'
         if layer_name == 'rnn.1.embedding.weight' \
             and pretrained_layer_weight.shape[0] > init_layer_weight.shape[0] \
@@ -111,7 +112,8 @@ if opt.pretrained != '':
         elif layer_name == 'rnn.1.embedding.bias' \
             and pretrained_layer_weight.shape[0] > init_layer_weight.shape[0]:
                 refined_model_dict[layer_name] = pretrained_layer_weight[:init_layer_weight.shape[0]]
-        elif pretrained_layer_weight.shape == init_layer_weight.shape:
+        """
+        if pretrained_layer_weight.shape == init_layer_weight.shape:
             refined_model_dict[layer_name] = pretrained_layer_weight
         else:
             refined_model_dict[layer_name] = init_layer_weight
